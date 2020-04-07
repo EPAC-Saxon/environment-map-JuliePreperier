@@ -12,18 +12,24 @@ namespace sgl {
 		front_(front),
 		up_(up)
 	{
-#pragma message ("You have to complete this code!")
+		UpdateCameraVectors();
 	}
 
 	const glm::mat4 Camera::GetLookAt() const
 	{
-#pragma message ("You have to complete this code!")
-		return {};
+		return { glm::lookAt(position_, front_, up_)};
 	}
 
 	void Camera::UpdateCameraVectors()
 	{
-#pragma message ("You have to complete this code!")
+		glm::vec3 front;
+		front.x = std::cos(glm::radians(pitch_)) * std::cos(glm::radians(yaw_));
+		front.y = std::sin(glm::radians(pitch_));
+		front.z = std::cos(glm::radians(pitch_)) * std::sin(glm::radians(yaw_));
+		front_ = glm::normalize(front);
+
+		right_ = glm::normalize(glm::cross(up_, front_));
+		up_ = glm::cross(front_, right_);
 	}
 
 }	// End namespace sgl.

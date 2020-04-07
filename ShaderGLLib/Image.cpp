@@ -14,7 +14,28 @@ namespace sgl {
 		pixel_element_size_(pixel_element_size),
 		pixel_structure_(pixel_structure)
 	{
-#pragma message ("You have to complete this code!")
+		int width;
+		int height;
+		int channel_size;
+		int desired_channel = static_cast<int>(GetPixelStructure());
+
+		switch (pixel_element_size_) {
+		case sgl::PixelElementSize::BYTE:
+			image_ = stbi_load(file.c_str(), &width, &height, &channel_size, desired_channel);
+			break;
+		case sgl::PixelElementSize::SHORT:
+			image_ = stbi_load_16(file.c_str(), &width, &height, &channel_size, desired_channel);
+			break;
+		case sgl::PixelElementSize::LONG:
+			image_ = stbi_loadf(file.c_str(), &width, &height, &channel_size, desired_channel);
+			break;
+		}
+
+		if (image_ == NULL) {
+			throw std::runtime_error("Image null");
+		}
+
+		size_ = std::make_pair(width, height);
 	}
 
 	Image::~Image()

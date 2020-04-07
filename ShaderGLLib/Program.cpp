@@ -56,21 +56,26 @@ namespace sgl {
 		const std::string& name, 
 		const glm::vec2& vec2) const
 	{
-#pragma message ("You have to complete this code!")
+		glUniform2f(GetMemoizeUniformLocation(name), vec2.x, vec2.y);
 	}
 
 	void Program::UniformVector3(
 		const std::string& name, 
 		const glm::vec3& vec3) const
 	{
-#pragma message ("You have to complete this code!")
+		glUniform3f(GetMemoizeUniformLocation(name), vec3.x, vec3.y, vec3.z);
 	}
 
 	void Program::UniformVector4(
 		const std::string& name, 
 		const glm::vec4& vec4) const
 	{
-#pragma message ("You have to complete this code!")
+		glUniform4f(
+			GetMemoizeUniformLocation(name),
+			vec4.x,
+			vec4.y,
+			vec4.z,
+			vec4.w);
 	}
 
 	void Program::UniformMatrix(
@@ -78,7 +83,11 @@ namespace sgl {
 		const glm::mat4& mat,
 		const bool transpose /*= false*/) const
 	{
-#pragma message ("You have to complete this code!")
+		glUniformMatrix4fv(
+			GetMemoizeUniformLocation(name),
+			1,
+			transpose ? GL_TRUE : GL_FALSE,
+			&mat[0][0]);
 	}
 
 	const int Program::GetMemoizeUniformLocation(const std::string& name) const
@@ -97,8 +106,25 @@ namespace sgl {
 		const glm::mat4& view /*= glm::mat4(1.0f)*/,
 		const glm::mat4& model /*= glm::mat4(1.0f)*/)
 	{
-#pragma message ("You have to complete this code!")
-		return nullptr;
+		std::shared_ptr<sgl::Program> program = std::make_shared<sgl::Program>();
+
+		sgl::Shader vertex_shader(sgl::ShaderType::VERTEX_SHADER);
+		sgl::Shader fragment_shader(sgl::ShaderType::FRAGMENT_SHADER);
+
+		vertex_shader.LoadFromFile("../Asset/Simple.Vertex.glsl");
+		fragment_shader.LoadFromFile("../Asset/Simple.Fragment.glsl");
+
+		program->AddShader(vertex_shader);
+		program->AddShader(fragment_shader);
+
+		program->LinkShader();
+		program->Use();
+
+		program->UniformMatrix("projection", projection);
+		program->UniformMatrix("view", view);
+		program->UniformMatrix("model", model);
+
+		return program;
 	}
 
 	std::shared_ptr<sgl::Program> CreateCubeMapProgram(
@@ -106,8 +132,25 @@ namespace sgl {
 		const glm::mat4& view /*= glm::mat4(1.0f)*/,
 		const glm::mat4& model /*= glm::mat4(1.0f)*/)
 	{
-#pragma message ("You have to complete this code!")
-		return nullptr;
+		std::shared_ptr<sgl::Program> program = std::make_shared<sgl::Program>();
+
+		sgl::Shader vertex_shader(sgl::ShaderType::VERTEX_SHADER);
+		sgl::Shader fragment_shader(sgl::ShaderType::FRAGMENT_SHADER);
+
+		vertex_shader.LoadFromFile("../Asset/CubeMap.Vertex.glsl");
+		fragment_shader.LoadFromFile("../Asset/CubeMap.Fragment.glsl");
+
+		program->AddShader(vertex_shader);
+		program->AddShader(fragment_shader);
+
+		program->LinkShader();
+		program->Use();
+
+		program->UniformMatrix("projection", projection);
+		program->UniformMatrix("view", view);
+		program->UniformMatrix("model", model);
+
+		return program;
 	}
 
 	std::shared_ptr<sgl::Program> CreatePBRProgram(
@@ -115,8 +158,25 @@ namespace sgl {
 		const glm::mat4& view /*= glm::mat4(1.0f)*/,
 		const glm::mat4& model /*= glm::mat4(1.0f)*/)
 	{
-#pragma message ("You have to complete this code!")
-		return nullptr;
+		std::shared_ptr<sgl::Program> program = std::make_shared<sgl::Program>();
+
+		sgl::Shader vertex_shader(sgl::ShaderType::VERTEX_SHADER);
+		sgl::Shader fragment_shader(sgl::ShaderType::FRAGMENT_SHADER);
+
+		vertex_shader.LoadFromFile("../Asset/PBR.Vertex.glsl");
+		fragment_shader.LoadFromFile("../Asset/PBR.Fragment.glsl");
+
+		program->AddShader(vertex_shader);
+		program->AddShader(fragment_shader);
+
+		program->LinkShader();
+		program->Use();
+
+		program->UniformMatrix("projection", projection);
+		program->UniformMatrix("view", view);
+		program->UniformMatrix("model", model);
+
+		return program;
 	}
 
 } // End namespace sgl.
