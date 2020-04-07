@@ -45,7 +45,7 @@ bool Application::Startup()
 	}
 	device->SetSceneTree(scene_tree);
 	// Comment out if you want to see the errors.
-	// window_->Startup();
+	//window_->Startup();
 	return true;
 }
 

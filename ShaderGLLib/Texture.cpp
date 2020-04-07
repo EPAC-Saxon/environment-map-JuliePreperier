@@ -136,12 +136,14 @@ namespace sgl {
 		Texture(pixel_element_size, pixel_structure)
 	{
 		CreateCubeMap();
-		for each (std::string file in cube_file)
+		int i = 0;
+		for(std::string str : cube_file)
 		{
-			sgl::Image img(file);
+			sgl::Image img(str, pixel_element_size_, pixel_structure_);
+			size_ = img.GetSize();
 
 			glTexImage2D(
-				GL_TEXTURE_CUBE_MAP,
+				GL_TEXTURE_CUBE_MAP_POSITIVE_X+i,
 				0,
 				ConvertToGLType(pixel_element_size_, pixel_structure_),
 				static_cast<GLsizei>(size_.first),
@@ -151,6 +153,7 @@ namespace sgl {
 				ConvertToGLType(pixel_element_size_),
 				img.Data());
 			glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+			i++;
 		}
 	}
 
