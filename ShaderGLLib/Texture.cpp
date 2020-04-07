@@ -11,7 +11,7 @@ namespace sgl {
 		pixel_element_size_(pixel_element_size),
 		pixel_structure_(pixel_structure)
 	{
-		sgl::Image img(file);
+		sgl::Image img(file,pixel_element_size_,pixel_structure_);
 		size_ = img.GetSize();
 		glGenTextures(1, &texture_id_);
 		glBindTexture(GL_TEXTURE_2D, texture_id_);
@@ -139,7 +139,7 @@ namespace sgl {
 		for each (std::string file in cube_file)
 		{
 			sgl::Image img(file);
-			
+
 			glTexImage2D(
 				GL_TEXTURE_CUBE_MAP,
 				0,
