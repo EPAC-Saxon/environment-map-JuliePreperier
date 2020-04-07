@@ -17,7 +17,7 @@ namespace sgl {
 
 	const glm::mat4 Camera::GetLookAt() const
 	{
-		return { glm::lookAt(position_, front_, up_)};
+		return glm::lookAt(position_, front_, up_);
 	}
 
 	void Camera::UpdateCameraVectors()
